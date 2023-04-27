@@ -2,9 +2,9 @@ package com.oocode;
 
 import org.junit.Test;
 
+import java.time.DayOfWeek;
 import java.util.Random;
 
-import static java.time.DayOfWeek.FRIDAY;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -19,12 +19,13 @@ public class CachingForecasterTest {
         Forecast expected = new Forecast(random.nextInt(),
                 random.nextInt(),
                 "description-" + random.nextInt());
-        given(forecaster.forecastFor(FRIDAY, "Somewhere"))
-                .willReturn(expected);
+        DayOfWeek dayOfWeek = DayOfWeek.of(1 + random.nextInt(7));
+        String place = "place-" + random.nextInt();
+        given(forecaster.forecastFor(dayOfWeek, place)).willReturn(expected);
 
         CachingForecaster underTest = new CachingForecaster(forecaster);
 
-        Forecast actual = underTest.forecastFor(FRIDAY, "Somewhere");
+        Forecast actual = underTest.forecastFor(dayOfWeek, place);
         assertThat(actual, equalTo(expected));
     }
 }

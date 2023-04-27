@@ -11,6 +11,6 @@ public class CachingForecaster implements Forecaster {
 
     @Override
     public Forecast forecastFor(DayOfWeek dayOfWeek, String place) {
-        return forecaster.forecastFor(DayOfWeek.FRIDAY, "Somewhere");
+        return forecaster.forecastFor(dayOfWeek, place);
     }
 }
