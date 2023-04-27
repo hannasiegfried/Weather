@@ -14,8 +14,9 @@ public class CachingForecaster implements Forecaster {
 
     @Override
     public Forecast forecastFor(DayOfWeek dayOfWeek, String place) {
+        String key = dayOfWeek.name() + " " + place;
         return cache.computeIfAbsent(
-                place,
+                key,
                 p -> forecaster.forecastFor(dayOfWeek, place));
     }
 }

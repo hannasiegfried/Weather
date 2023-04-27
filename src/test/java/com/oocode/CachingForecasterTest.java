@@ -57,6 +57,22 @@ public class CachingForecasterTest {
         assertThat(actual, equalTo(expectedForAnotherPlace));
     }
 
+    @Test
+    public void cachesForecastsForDifferentDays() {
+        Forecast expectedForOneDay = randomForecast("one day");
+        Forecast expectedForAnotherDay = randomForecast("another day");
+        DayOfWeek oneDay = randomDayOfWeek();
+        DayOfWeek anotherDay = randomDayOfWeek();
+        String place = randomPlace();
+        given(delegate.forecastFor(oneDay, place)).willReturn(expectedForOneDay);
+        given(delegate.forecastFor(anotherDay, place)).willReturn(expectedForAnotherDay);
+
+        underTest.forecastFor(oneDay, place);
+
+        Forecast actual = underTest.forecastFor(anotherDay, place);
+        assertThat(actual, equalTo(expectedForAnotherDay));
+    }
+
     private DayOfWeek randomDayOfWeek() {
         return DayOfWeek.of(1 + random.nextInt(7));
     }
