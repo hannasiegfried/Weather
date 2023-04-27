@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 
 public class CachingForecaster implements Forecaster {
     private final Forecaster forecaster;
+    private Forecast cache;
 
     public CachingForecaster(Forecaster forecaster) {
         this.forecaster = forecaster;
@@ -11,6 +12,9 @@ public class CachingForecaster implements Forecaster {
 
     @Override
     public Forecast forecastFor(DayOfWeek dayOfWeek, String place) {
-        return forecaster.forecastFor(dayOfWeek, place);
+        if (cache == null) {
+            cache = forecaster.forecastFor(dayOfWeek, place);
+        }
+        return cache;
     }
 }
