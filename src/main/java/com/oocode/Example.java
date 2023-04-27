@@ -7,7 +7,7 @@ public class Example {
         if (args.length != 2) {
             throw new RuntimeException("Must specify Day and Place");
         }
-        Forecaster forecaster = new MetOfficeForecaster();
+        Forecaster forecaster = new CachingForecaster(new MetOfficeForecaster());
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
