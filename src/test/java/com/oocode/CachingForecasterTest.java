@@ -17,7 +17,7 @@ public class CachingForecasterTest {
 
     @Test
     public void delegatesIfForecastNotSeenBefore() {
-        Forecast expected = randomForecast();
+        Forecast expected = randomForecast("place");
         DayOfWeek dayOfWeek = randomDayOfWeek();
         String place = randomPlace();
         given(delegate.forecastFor(dayOfWeek, place)).willReturn(expected);
@@ -29,7 +29,7 @@ public class CachingForecasterTest {
 
     @Test
     public void doesNotAskDelegateAgainIfSeenBefore() {
-        Forecast expected = randomForecast();
+        Forecast expected = randomForecast("place");
         DayOfWeek dayOfWeek = randomDayOfWeek();
         String place = randomPlace();
         given(delegate.forecastFor(dayOfWeek, place)).willReturn(expected);
@@ -41,6 +41,22 @@ public class CachingForecasterTest {
         verify(delegate, times(1)).forecastFor(dayOfWeek, place);
     }
 
+    @Test
+    public void cachesForecastsForDifferentPlaces() {
+        Forecast expectedForOnePlace = randomForecast("one place");
+        Forecast expectedForAnotherPlace = randomForecast("another place");
+        DayOfWeek dayOfWeek = randomDayOfWeek();
+        String onePlace = randomPlace();
+        String anotherPlace = randomPlace();
+        given(delegate.forecastFor(dayOfWeek, onePlace)).willReturn(expectedForOnePlace);
+        given(delegate.forecastFor(dayOfWeek, anotherPlace)).willReturn(expectedForAnotherPlace);
+
+        underTest.forecastFor(dayOfWeek, onePlace);
+
+        Forecast actual = underTest.forecastFor(dayOfWeek, anotherPlace);
+        assertThat(actual, equalTo(expectedForAnotherPlace));
+    }
+
     private DayOfWeek randomDayOfWeek() {
         return DayOfWeek.of(1 + random.nextInt(7));
     }
@@ -49,9 +65,9 @@ public class CachingForecasterTest {
         return "place-" + random.nextInt();
     }
 
-    private Forecast randomForecast() {
+    private Forecast randomForecast(String hint) {
         return new Forecast(random.nextInt(),
                 random.nextInt(),
-                "description-" + random.nextInt());
+                hint + "-" + random.nextInt());
     }
 }

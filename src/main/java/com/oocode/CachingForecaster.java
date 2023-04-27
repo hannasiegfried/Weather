@@ -1,10 +1,12 @@
 package com.oocode;
 
 import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CachingForecaster implements Forecaster {
     private final Forecaster forecaster;
-    private Forecast cache;
+    private final Map<String, Forecast> cache = new HashMap<>();
 
     public CachingForecaster(Forecaster forecaster) {
         this.forecaster = forecaster;
@@ -12,9 +14,8 @@ public class CachingForecaster implements Forecaster {
 
     @Override
     public Forecast forecastFor(DayOfWeek dayOfWeek, String place) {
-        if (cache == null) {
-            cache = forecaster.forecastFor(dayOfWeek, place);
-        }
-        return cache;
+        return cache.computeIfAbsent(
+                place,
+                p -> forecaster.forecastFor(dayOfWeek, place));
     }
 }
