@@ -1,26 +1,21 @@
 package com.oocode;
 
-import com.teamoptimization.LocatorClient;
-import com.teamoptimization.MetOfficeForecasterClient;
-
-import java.io.IOException;
 import java.time.DayOfWeek;
 
 public class Example {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws UnableToForecast {
         if (args.length != 2) {
             throw new RuntimeException("Must specify Day and Place");
         }
-        forecast(args[0], args[1]);
+        Forecaster forecaster = new MetOfficeForecaster();
+        forecast(args[0], args[1], forecaster);
+        forecast(args[0], args[1], forecaster);
+        forecast(args[0], args[1], forecaster);
     }
 
-    private static void forecast(String day, String place) throws IOException {
-        int dayNumber = DayOfWeek.valueOf(day.toUpperCase()).getValue();
-        LocatorClient.Location location = new LocatorClient().locationOf(place);
-        MetOfficeForecasterClient forecasterClient = new MetOfficeForecasterClient();
-        MetOfficeForecasterClient.Forecast forecast =
-                forecasterClient.forecast(dayNumber, location.latitude, location.longitude);
+    private static void forecast(String day, String place, Forecaster forecaster) throws UnableToForecast {
+        Forecast forecast = forecaster.forecastFor(DayOfWeek.valueOf(day.toUpperCase()), place);
         System.out.printf("forecaster: %s day=%s min=%s max=%s description=%s%n",
-                place, day, forecast.minTemp, forecast.maxTemp, forecast.description);
+                place, day, forecast.minTemperatureCelcius, forecast.maxTempCelcius, forecast.description);
     }
 }
