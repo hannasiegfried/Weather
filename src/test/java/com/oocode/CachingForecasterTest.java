@@ -16,7 +16,7 @@ public class CachingForecasterTest {
     private final CachingForecaster underTest = new CachingForecaster(delegate);
 
     @Test
-    public void delegatesIfForecastNotSeenBefore() {
+    public void delegatesIfForecastNotSeenBefore() throws UnableToForecast {
         Forecast expected = randomForecast("place");
         DayOfWeek dayOfWeek = randomDayOfWeek();
         String place = randomPlace();
@@ -28,7 +28,7 @@ public class CachingForecasterTest {
     }
 
     @Test
-    public void doesNotAskDelegateAgainIfSeenBefore() {
+    public void doesNotAskDelegateAgainIfSeenBefore() throws UnableToForecast {
         Forecast expected = randomForecast("place");
         DayOfWeek dayOfWeek = randomDayOfWeek();
         String place = randomPlace();
@@ -42,7 +42,7 @@ public class CachingForecasterTest {
     }
 
     @Test
-    public void cachesForecastsForDifferentPlaces() {
+    public void cachesForecastsForDifferentPlaces() throws UnableToForecast {
         Forecast expectedForOnePlace = randomForecast("one place");
         Forecast expectedForAnotherPlace = randomForecast("another place");
         DayOfWeek dayOfWeek = randomDayOfWeek();
@@ -58,7 +58,7 @@ public class CachingForecasterTest {
     }
 
     @Test
-    public void cachesForecastsForDifferentDays() {
+    public void cachesForecastsForDifferentDays() throws UnableToForecast {
         Forecast expectedForOneDay = randomForecast("one day");
         Forecast expectedForAnotherDay = randomForecast("another day");
         DayOfWeek oneDay = randomDayOfWeek();
@@ -71,6 +71,14 @@ public class CachingForecasterTest {
 
         Forecast actual = underTest.forecastFor(anotherDay, place);
         assertThat(actual, equalTo(expectedForAnotherDay));
+    }
+
+    @Test(expected = UnableToForecast.class)
+    public void propagatesExceptionFromDelegateWhenUnableToForecast() throws UnableToForecast {
+        given(delegate.forecastFor(any(), any()))
+                .willThrow(new UnableToForecast("oops", new RuntimeException("bad")));
+
+        underTest.forecastFor(randomDayOfWeek(), randomPlace());
     }
 
     private DayOfWeek randomDayOfWeek() {

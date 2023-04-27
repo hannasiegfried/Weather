@@ -13,10 +13,11 @@ public class CachingForecaster implements Forecaster {
     }
 
     @Override
-    public Forecast forecastFor(DayOfWeek dayOfWeek, String place) {
+    public Forecast forecastFor(DayOfWeek dayOfWeek, String place) throws UnableToForecast {
         String key = dayOfWeek.name() + " " + place;
-        return cache.computeIfAbsent(
-                key,
-                p -> forecaster.forecastFor(dayOfWeek, place));
+        if (!cache.containsKey(key)) {
+            cache.put(key, forecaster.forecastFor(dayOfWeek, place));
+        }
+        return cache.get(key);
     }
 }
