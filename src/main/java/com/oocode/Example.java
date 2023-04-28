@@ -10,8 +10,8 @@ public class Example {
 //        Forecaster forecaster = new CachingForecaster(new MetOfficeForecaster());
 //        Forecaster forecaster = new CachingForecaster(new NavyForecaster());
         Forecaster forecaster = new CachingForecaster(new AveragingForecaster(
-                new MetOfficeForecaster(),
-                new NavyForecaster()));
+                new LoggingForecaster("Met Office", new MetOfficeForecaster()),
+                new LoggingForecaster("Navy", new NavyForecaster())));
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
