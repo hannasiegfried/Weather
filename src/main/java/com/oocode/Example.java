@@ -8,7 +8,7 @@ public class Example {
             throw new RuntimeException("Must specify Day and Place");
         }
 //        Forecaster forecaster = new CachingForecaster(new MetOfficeForecaster());
-        Forecaster forecaster = new NavyForecaster();
+        Forecaster forecaster = new CachingForecaster(new NavyForecaster());
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
         forecast(args[0], args[1], forecaster);
