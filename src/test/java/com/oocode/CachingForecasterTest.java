@@ -1,12 +1,13 @@
 package com.oocode;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.util.Random;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
@@ -73,12 +74,14 @@ public class CachingForecasterTest {
         assertThat(actual, equalTo(expectedForAnotherDay));
     }
 
-    @Test(expected = UnableToForecast.class)
+    @Test
     public void propagatesExceptionFromDelegateWhenUnableToForecast() throws UnableToForecast {
         given(delegate.forecastFor(any(), any()))
                 .willThrow(new UnableToForecast("oops", new RuntimeException("bad")));
 
-        underTest.forecastFor(randomDayOfWeek(), randomPlace());
+        assertThrows(
+                UnableToForecast.class,
+                () -> underTest.forecastFor(randomDayOfWeek(), randomPlace()));
     }
 
     private DayOfWeek randomDayOfWeek() {
