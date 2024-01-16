@@ -1,5 +1,8 @@
-apply plugin: 'java'
-apply plugin: "jacoco"
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'info.solidsoft.pitest' version '1.15.0'
+}
 
 version = '1.0.0'
 
@@ -41,4 +44,9 @@ jacocoTestReport {
     reports {
         html.outputLocation = file("${buildDir}/jacocoHtml")
     }
+}
+pitest{
+    junit5PluginVersion = '1.2.1'
+    pitestVersion = '1.15.2'
+    targetClasses=["com.oocode.*"]
 }
