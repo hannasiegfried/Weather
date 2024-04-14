@@ -1,7 +1,7 @@
 package com.oocode;
 
-import com.teamoptimization.MetOfficeForecasterClient.Forecast;
-import com.teamoptimization.MetOfficeWeatherForecasterClient;
+import com.oocode.teamoptimization.MetOfficeForecasterClient.Forecast;
+import com.oocode.teamoptimization.MetOfficeWeatherForecasterClient;
 
 import java.io.IOException;
 import java.time.DayOfWeek;

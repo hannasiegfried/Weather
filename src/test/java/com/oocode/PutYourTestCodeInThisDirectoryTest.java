@@ -1,4 +1,4 @@
-package com.develogical;
+package com.oocode;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package com.teamoptimization;
+package com.oocode.teamoptimization;
 
-import com.teamoptimization.LocatorClient.Location;
+import com.oocode.teamoptimization.LocatorClient.Location;
 
 import java.io.IOException;
 

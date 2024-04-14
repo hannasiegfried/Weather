@@ -1,4 +1,4 @@
-package com.teamoptimization;
+package com.oocode.teamoptimization;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
