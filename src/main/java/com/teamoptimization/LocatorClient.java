@@ -13,6 +13,7 @@ public class LocatorClient {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OkHttpClient client = new OkHttpClient();
 
+    @SuppressWarnings("unused") // Some things are only used by JSON deserialization
     public static class Location {
         @JsonProperty("lat")
         public BigDecimal latitude;

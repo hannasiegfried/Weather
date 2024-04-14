@@ -12,6 +12,7 @@ public class MetOfficeForecasterClient {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final OkHttpClient client = new OkHttpClient();
 
+    @SuppressWarnings("unused") // Some things are only used by JSON deserialization
     public static class Forecast {
         public int minTemp;
         public int maxTemp;
