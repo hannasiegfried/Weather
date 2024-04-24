@@ -1,6 +1,5 @@
 package com.oocode;
 
-import com.oocode.teamoptimization.MetOfficeForecasterClient.Forecast;
 import com.oocode.teamoptimization.MetOfficeWeatherForecasterClient;
 
 import java.io.IOException;
@@ -11,8 +10,7 @@ public class Example {
         String day = "Wednesday";
         String place = "Oxford";
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(day.toUpperCase());
-        Forecast forecast = new MetOfficeWeatherForecasterClient()
-                .getForecast(place, dayOfWeek.getValue());
+        Forecast forecast = new MetOfficeAdapter().forecastFor(place, dayOfWeek);
         System.out.printf(forecast.toString());
     }
 

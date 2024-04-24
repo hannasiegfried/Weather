@@ -16,4 +16,8 @@ public class Forecast {
         this.description = description;
     }
 
+    public String toString() {
+        return "Forecast(" + minTemp + ", " + maxTemp + ", " + description + ")";
+    }
+
 }

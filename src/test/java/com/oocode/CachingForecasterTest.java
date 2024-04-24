@@ -55,4 +55,5 @@ public class CachingForecasterTest {
         verify(delegate, times(2)).forecastFor("Oxford", FRIDAY); // This is arguable
         assertThat(forecast, equalTo(expectedForecast));
     }
+
 }
