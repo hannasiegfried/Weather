@@ -7,11 +7,20 @@ import java.time.DayOfWeek;
 
 public class Example {
     public static void main(String[] args) throws IOException {
+        Forecaster forecaster = new MetOfficeAdapter();
+        CachingForecaster cachingForecaster = new CachingForecaster(forecaster);
+        printForecast(cachingForecaster);
+        printForecast(cachingForecaster);
+        printForecast(cachingForecaster);
+        printForecast(cachingForecaster);
+    }
+
+    private static void printForecast(Forecaster forecaster) {
         String day = "Wednesday";
         String place = "Oxford";
         DayOfWeek dayOfWeek = DayOfWeek.valueOf(day.toUpperCase());
-        Forecast forecast = new MetOfficeAdapter().forecastFor(place, dayOfWeek);
-        System.out.printf(forecast.toString());
+        Forecast forecast = forecaster.forecastFor(place, dayOfWeek);
+        System.out.println(forecast.toString());
     }
 
 }
