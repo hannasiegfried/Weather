@@ -15,4 +15,5 @@ public class Example {
                 .getForecast(place, dayOfWeek.getValue());
         System.out.printf(forecast.toString());
     }
+
 }
